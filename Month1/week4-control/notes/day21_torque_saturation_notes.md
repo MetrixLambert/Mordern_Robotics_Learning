@@ -11,51 +11,51 @@
 
 真实动力学为
 
-\[
+$$
 M(q)\ddot q+c(q,\dot q)+g(q)=\tau_{\mathrm{actual}},
 \qquad e=q-q_d,\quad \dot e=\dot q-\dot q_d.
-\]
+$$
 
 理想计算力矩控制（CTC）：
 
-\[
+$$
 v=\ddot q_d-K_d\dot e-K_pe,
 \qquad
 \tau_{\mathrm{cmd}}=M(q)v+c(q,\dot q)+g(q).
-\]
+$$
 
 本练习使用标量增益乘以单位阵，即 `kp=25, kd=10` 等价于 \(K_p=25I,K_d=10I\)。模型采用之前的 2R 机械臂：
 
-\[
+$$
 M(q)=\begin{bmatrix}
 6.60+2\cos q_2&0.35+\cos q_2\\
 0.35+\cos q_2&0.35
 \end{bmatrix},
-\]
+$$
 
-\[
+$$
 c(q,\dot q)=\sin q_2
 \begin{bmatrix}-2\dot q_1\dot q_2-\dot q_2^2\\\dot q_1^2\end{bmatrix},
 \qquad
 g(q)=9.81\begin{bmatrix}4\cos q_1+0.5\cos(q_1+q_2)\\0.5\cos(q_1+q_2)\end{bmatrix}.
-\]
+$$
 
 ## 3. 执行器饱和及其误差动力学
 
 对**总命令力矩**逐关节裁剪：
 
-\[
+$$
 \tau_{\mathrm{actual},i}=\operatorname{clip}
 (\tau_{\mathrm{cmd},i},-\tau_{\max,i},\tau_{\max,i}),
 \qquad
 \Delta\tau=\tau_{\mathrm{actual}}-\tau_{\mathrm{cmd}}.
-\]
+$$
 
 因此，真实误差动力学为
 
-\[
+$$
 \boxed{\ddot e+K_d\dot e+K_pe=M(q)^{-1}\Delta\tau.}
-\]
+$$
 
 未饱和时 \(\Delta\tau=0\)，恢复理想线性误差系统。发生饱和时，\(\Delta\tau\) 依赖控制命令、状态和参考轨迹，不能无条件视为独立的有界外扰并套用全局 ISS 结论。
 
@@ -67,29 +67,29 @@ g(q)=9.81\begin{bmatrix}4\cos q_1+0.5\cos(q_1+q_2)\\0.5\cos(q_1+q_2)\end{bmatrix
 
 **仅位置反馈饱和：**
 
-\[
+$$
 \tau=-\operatorname{sat}(k_pq)-k_d\dot q.
-\]
+$$
 
 构造
 
-\[
+$$
 V=\tfrac12m\dot q^2+\int_0^q\operatorname{sat}(k_ps)\,ds.
-\]
+$$
 
 该函数正定且径向无界，并且 \(\dot V=-k_d\dot q^2\le0\)。由 LaSalle 不变性原理可得原点全局渐近稳定。不过该控制器**并未限制总力矩**，因为阻尼项仍可能无界。
 
 **总力矩饱和：**
 
-\[
+$$
 \tau=\operatorname{sat}(-k_pq-k_d\dot q).
-\]
+$$
 
 沿用上述势能函数，可得
 
-\[
+$$
 \dot V=-\dot q\left[\operatorname{sat}(k_pq+k_d\dot q)-\operatorname{sat}(k_pq)\right]\le0.
-\]
+$$
 
 最后一步利用饱和函数的单调不减性质。此时 \(\dot V=0\) 的集合可能包含饱和平台上的非零速度状态，因此若要进一步证明全局渐近稳定，仍须检查最大不变集，不能直接将 \(\dot V=0\) 等同于 \(\dot q=0\)。
 
@@ -117,9 +117,9 @@ V=\tfrac12m\dot q^2+\int_0^q\operatorname{sat}(k_ps)\,ds.
 
 RMSE 的定义为
 
-\[
+$$
 \mathrm{RMSE}=\sqrt{\frac1{N+1}\sum_{k=0}^N\|e_k\|_2^2}.
-\]
+$$
 
 饱和比例的定义为**至少一个关节发生饱和的时间步比例**，并非两个关节饱和比例的平均值。
 
@@ -140,8 +140,8 @@ RMSE 的定义为
 
 ## 8. 本日结论
 
-\[
+$$
 \boxed{\text{理想 CTC 的指数跟踪保证依赖于控制输入能够实际施加。}}
-\]
+$$
 
 实际机器人控制需要同时考虑：动力学补偿、反馈增益、执行器约束，以及全程跟踪指标。后续 Day 22 可以在统一条件下比较 PD、Gravity+PD、FF+PD 和 CTC，并引入模型误差与力矩饱和进行综合评估。

@@ -94,31 +94,31 @@ $$
 
 若
 
-\[
+$$
 K=\tfrac12(2+\cos q)\dot q^2,\qquad U=3(1-\cos q),
-\]
+$$
 
 则
 
-\[
+$$
 \frac{\partial\mathcal L}{\partial\dot q}=(2+\cos q)\dot q,
-\]
+$$
 
-\[
+$$
 \frac{d}{dt}\frac{\partial\mathcal L}{\partial\dot q}
 =(2+\cos q)\ddot q-\sin q\,\dot q^2,
-\]
+$$
 
-\[
+$$
 \frac{\partial\mathcal L}{\partial q}
 =-\tfrac12\sin q\,\dot q^2-3\sin q.
-\]
+$$
 
 因此
 
-\[
+$$
 \boxed{(2+\cos q)\ddot q-\tfrac12\sin q\,\dot q^2+3\sin q=\tau}.
-\]
+$$
 
 易错点：对 \((2+\cos q)\dot q\) 求时间导数时，必须记得 \(q=q(t)\)，应用乘积法则和链式法则。
 
@@ -140,54 +140,54 @@ K=\tfrac12(2+\cos q)\dot q^2,\qquad U=3(1-\cos q),
 
 两连杆质心位置：
 
-\[
+$$
 p_{C_1}=\begin{bmatrix}r_1\cos q_1\\r_1\sin q_1\end{bmatrix},
-\]
+$$
 
-\[
+$$
 p_{C_2}=
 \begin{bmatrix}
 L_1\cos q_1+r_2\cos(q_1+q_2)\\
 L_1\sin q_1+r_2\sin(q_1+q_2)
 \end{bmatrix}.
-\]
+$$
 
 角速度：
 
-\[
+$$
 \omega_1=\dot q_1,\qquad \omega_2=\dot q_1+\dot q_2.
-\]
+$$
 
 总动能由两连杆的平动和转动动能组成：
 
-\[
+$$
 K=\tfrac12m_1\|\dot p_{C_1}\|^2
 +\tfrac12I_1\dot q_1^2
 +\tfrac12m_2\|\dot p_{C_2}\|^2
 +\tfrac12I_2(\dot q_1+\dot q_2)^2.
-\]
+$$
 
 整理成 \(K=\frac12\dot q^TM(q)\dot q\) 得到：
 
-\[
+$$
 \begin{aligned}
 M_{11}&=I_1+I_2+m_1r_1^2
 +m_2(L_1^2+r_2^2+2L_1r_2\cos q_2),\\
 M_{12}=M_{21}&=I_2+m_2(r_2^2+L_1r_2\cos q_2),\\
 M_{22}&=I_2+m_2r_2^2.
 \end{aligned}
-\]
+$$
 
 代入数值：
 
-\[
+$$
 \boxed{
 M(q)=\begin{bmatrix}
 6.60+2\cos q_2&0.35+\cos q_2\\
 0.35+\cos q_2&0.35
 \end{bmatrix}.
 }
-\]
+$$
 
 **理解**：惯性矩阵的非对角元素反映关节之间的惯性耦合；即使 \(\ddot q_2=0\)，\(\ddot q_1\) 也可能需要在第二关节施加力矩。
 
@@ -197,14 +197,14 @@ M(q)=\begin{bmatrix}
 
 从 \(K=\frac12\sum_{jk}M_{jk}(q)\dot q_j\dot q_k\) 出发，Euler–Lagrange 方程中的速度二次项可写为
 
-\[
+$$
 c_i(q,\dot q)=\sum_{j=1}^n\sum_{k=1}^n
 \Gamma_{ijk}(q)\dot q_j\dot q_k,
-\]
+$$
 
 其中**第一类 Christoffel 符号**定义为
 
-\[
+$$
 \boxed{
 \Gamma_{ijk}=
 \frac12\left(
@@ -213,33 +213,33 @@ c_i(q,\dot q)=\sum_{j=1}^n\sum_{k=1}^n
 -\frac{\partial M_{jk}}{\partial q_i}
 \right).
 }
-\]
+$$
 
 满足 \(\Gamma_{ijk}=\Gamma_{ikj}\)。定义标准速度耦合矩阵
 
-\[
+$$
 \boxed{C_{ij}(q,\dot q)=\sum_k\Gamma_{ijk}(q)\dot q_k},
-\]
+$$
 
 于是 \(c=C\dot q\)。
 
 对当前二连杆，令
 
-\[
+$$
 h(q_2)=m_2L_1r_2\sin q_2=\sin q_2.
-\]
+$$
 
 关键系数包括
 
-\[
+$$
 \Gamma_{112}=\Gamma_{121}=-h,\quad
 \Gamma_{122}=-h,\quad
 \Gamma_{211}=h,
-\]
+$$
 
 其余与 \(c\) 有关的系数为零。由此
 
-\[
+$$
 \boxed{
 C(q,\dot q)=
 \begin{bmatrix}
@@ -247,11 +247,11 @@ C(q,\dot q)=
 h\dot q_1&0
 \end{bmatrix}
 }
-\]
+$$
 
 以及
 
-\[
+$$
 \boxed{
 c(q,\dot q)=h
 \begin{bmatrix}
@@ -259,7 +259,7 @@ c(q,\dot q)=h
 \dot q_1^2
 \end{bmatrix}.
 }
-\]
+$$
 
 这里的速度项并非单纯的“阻尼”：它来自机械臂几何结构随关节位置变化而产生的惯性耦合。
 
@@ -269,17 +269,17 @@ c(q,\dot q)=h
 
 由于 \(M\) 只依赖 \(q_2\)，
 
-\[
+$$
 \dot M(q)=
 \begin{bmatrix}
 -2h\dot q_2&-h\dot q_2\\
 -h\dot q_2&0
 \end{bmatrix}.
-\]
+$$
 
 因此
 
-\[
+$$
 \boxed{
 \dot M-2C=
 \begin{bmatrix}
@@ -287,40 +287,40 @@ c(q,\dot q)=h
 -h(2\dot q_1+\dot q_2)&0
 \end{bmatrix}.
 }
-\]
+$$
 
 显然
 
-\[
+$$
 \boxed{(\dot M-2C)^T=-(\dot M-2C)}.
-\]
+$$
 
 这一性质依赖于前述 Christoffel 方式构造的 \(C\)；不能对任意满足 \(C\dot q=c\) 的矩阵表示直接作同样断言。
 
 对任意斜对称矩阵 \(S\)，有 \(x^TSx=0\)，因此
 
-\[
+$$
 \boxed{\dot q^T(\dot M-2C)\dot q=0}.
-\]
+$$
 
 ### 5.1 能量平衡与无源性
 
 定义机械能
 
-\[
+$$
 E(q,\dot q)=\frac12\dot q^TM(q)\dot q+U(q).
-\]
+$$
 
 求导并代入 \(M\ddot q+C\dot q+g=\tau\)，且 \(g=\nabla U\)：
 
-\[
+$$
 \begin{aligned}
 \dot E
 &=\dot q^TM\ddot q+\tfrac12\dot q^T\dot M\dot q+\dot q^Tg\\
 &=\dot q^T\tau+\tfrac12\dot q^T(\dot M-2C)\dot q\\
 &=\boxed{\dot q^T\tau}.
 \end{aligned}
-\]
+$$
 
 在无摩擦、无其他外部非保守力的理想模型中：
 
@@ -336,14 +336,14 @@ E(q,\dot q)=\frac12\dot q^TM(q)\dot q+U(q).
 
 在竖直平面、\(Y\) 向上时：
 
-\[
+$$
 U(q)=m_1g_0r_1\sin q_1+
 m_2g_0\left[L_1\sin q_1+r_2\sin(q_1+q_2)\right].
-\]
+$$
 
 由 \(g(q)=\nabla_q U(q)\)：
 
-\[
+$$
 \boxed{
 g(q)=
 \begin{bmatrix}
@@ -352,24 +352,24 @@ g(q)=
 m_2g_0r_2\cos(q_1+q_2)
 \end{bmatrix}.
 }
-\]
+$$
 
 代入参数：
 
-\[
+$$
 \boxed{
 g(q)=g_0\begin{bmatrix}
 4\cos q_1+0.5\cos(q_1+q_2)\\
 0.5\cos(q_1+q_2)
 \end{bmatrix}.
 }
-\]
+$$
 
 物理理解：第一关节需要补偿两根连杆的重力力矩；第二关节只需要补偿第二连杆的重力力矩。这里 \(g(q)\) 是**平衡重力所需的广义驱动力矩项**，而非重力本身施加的广义力；重力施加的广义力是 \(-g(q)\)。
 
 ### 完整二连杆动力学
 
-\[
+$$
 \boxed{
 \underbrace{\begin{bmatrix}
 6.60+2\cos q_2&0.35+\cos q_2\\
@@ -389,13 +389,13 @@ g(q)=g_0\begin{bmatrix}
 \end{bmatrix}}_{g(q)}
 =\tau.
 }
-\]
+$$
 
 正动力学：
 
-\[
+$$
 \boxed{\ddot q=M(q)^{-1}\bigl[\tau-C(q,\dot q)\dot q-g(q)\bigr]}.
-\]
+$$
 
 数值实现时优先使用 `np.linalg.solve(M, rhs)`，而不是显式计算逆矩阵。
 
@@ -407,30 +407,30 @@ g(q)=g_0\begin{bmatrix}
 
 对质点：
 
-\[
+$$
 ma=f_{\mathrm{act}}+m g_{\mathrm{vec}}
 \quad\Longrightarrow\quad
 f_{\mathrm{act}}=m(a-g_{\mathrm{vec}}).
-\]
+$$
 
 因此计算驱动力时，可以用“真实加速度减去重力加速度”的**等效加速度**。
 
 对固定基座机械臂，真实基座加速度为零。若世界坐标系中
 
-\[
+$$
 g_{\mathrm{vec}}=(0,-g_0,0)^T,
-\]
+$$
 
 在 RNEA 前向递推中使用算法初值
 
-\[
+$$
 \boxed{
 \dot V_0=
 \begin{bmatrix}0_{3\times1}\\-g_{\mathrm{vec}}\end{bmatrix}
 =
 (0,0,0,0,g_0,0)^T.
 }
-\]
+$$
 
 注意：这不是说物理基座真的在加速，而是引入重力的计算技巧。
 
@@ -438,34 +438,34 @@ g_{\mathrm{vec}}=(0,-g_0,0)^T,
 
 前向递推：
 
-\[
+$$
 V_i=\operatorname{Ad}_{T_{i-1,i}^{-1}}V_{i-1}+A_i\dot q_i,
-\]
+$$
 
-\[
+$$
 \dot V_i=
 \operatorname{Ad}_{T_{i-1,i}^{-1}}\dot V_{i-1}
 +A_i\ddot q_i+\operatorname{ad}_{V_i}(A_i\dot q_i).
-\]
+$$
 
 改变 \(\dot V_0\) 后，等效重力加速度通过坐标变换传递到每根连杆的 \(\dot V_i\)。
 
 反向递推仍为
 
-\[
+$$
 F_i=G_i\dot V_i-\operatorname{ad}_{V_i}^TG_iV_i
 +\operatorname{Ad}_{T_{i,i+1}^{-1}}^TF_{i+1},
 \qquad \tau_i=A_i^TF_i,
-\]
+$$
 
 （此处假设无其他显式外部 Wrench）。由于 \(\dot V_i\) 已包含等效重力效应，\(G_i\dot V_i\) 便已包含相应的重力补偿 Wrench，所以**无需再次修改反向递推**。
 
 另一种等价实现：保持真实基座加速度 \(\dot V_0=0\)，在反向递推中对每根连杆显式减去重力 Wrench \(F_{g,i}\)：
 
-\[
+$$
 F_i=G_i\dot V_i-\operatorname{ad}_{V_i}^TG_iV_i
 -F_{g,i}+\operatorname{Ad}_{T_{i,i+1}^{-1}}^TF_{i+1}.
-\]
+$$
 
 两种方法在固定基座、均匀重力场且坐标系处理一致时等价。**不要同时用等效基座加速度和显式重力 Wrench 重复计算重力。**
 

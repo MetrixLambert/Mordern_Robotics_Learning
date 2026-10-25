@@ -27,7 +27,9 @@ $$
 
 目标是调节接触力 $F$，例如维持打磨或擦拭时的法向压力。力误差为 $e_F=F_d-F$。末端力与关节广义力矩的映射为：
 
-$$\tau_{\rm ext}=J(q)^TF_{\rm ext}.$$
+$$
+\tau_{\rm ext}=J(q)^TF_{\rm ext}.
+$$
 
 这一映射来自虚功关系 $F^T\delta x=\tau^T\delta q$。**力反馈控制只有在建立接触后才有明确的接触力调节对象**；实际控制器还需要考虑动力学补偿、接触方向与传感器信息。
 
@@ -35,7 +37,9 @@ $$\tau_{\rm ext}=J(q)^TF_{\rm ext}.$$
 
 典型场景：沿墙面切向跟踪轨迹，同时在法向维持接触压力。若法向为 $z$，一个简化的选择矩阵例子为：
 
-$$S_m=\operatorname{diag}(1,1,0),\qquad S_f=\operatorname{diag}(0,0,1).$$
+$$
+S_m=\operatorname{diag}(1,1,0),\qquad S_f=\operatorname{diag}(0,0,1).
+$$
 
 真实任务的运动/力子空间由接触约束几何决定，不能在任意坐标系中机械地套用上述矩阵。
 
@@ -43,17 +47,23 @@ $$S_m=\operatorname{diag}(1,1,0),\qquad S_f=\operatorname{diag}(0,0,1).$$
 
 不直接要求“位置误差始终为零”或“接触力始终为某值”，而是规定**外力与运动响应之间的动态关系**：
 
-$$\boxed{M_d\ddot e+D_d\dot e+K_de=F_{\rm ext}}$$
+$$
+\boxed{M_d\ddot e+D_d\dot e+K_de=F_{\rm ext}}
+$$
 
 其中 $e=x-x_d$（关节空间时将 $x,F$ 换成 $q,\tau$）。$M_d$ 为期望惯量，$D_d$ 为期望阻尼，$K_d$ 为期望刚度。注意此处 $K_d$ 是**刚度**，不要与 CTC 中常用的微分增益 $K_D$ 混淆。
 
 恒定外力下，若系统收敛到静态平衡：
 
-$$\boxed{e_\infty=K_d^{-1}F_0}.$$
+$$
+\boxed{e_\infty=K_d^{-1}F_0}.
+$$
 
 一维情形的自然频率和阻尼比：
 
-$$\omega_n=\sqrt{K_d/M_d},\qquad \zeta=\frac{D_d}{2\sqrt{M_dK_d}}.$$
+$$
+\omega_n=\sqrt{K_d/M_d},\qquad \zeta=\frac{D_d}{2\sqrt{M_dK_d}}.
+$$
 
 减小刚度会增大同一外力下的静态位移；改变阻尼主要改变瞬态响应；改变惯量影响加速度与自然频率。阻尼过大不一定收敛更快。
 
@@ -61,15 +71,21 @@ $$\omega_n=\sqrt{K_d/M_d},\qquad \zeta=\frac{D_d}{2\sqrt{M_dK_d}}.$$
 
 机器人受外部广义力矩时：
 
-$$M(q)\ddot q+h(q,\dot q)=\tau+\tau_{\rm ext}.$$
+$$
+M(q)\ddot q+h(q,\dot q)=\tau+\tau_{\rm ext}.
+$$
 
 希望闭环满足：
 
-$$M_d\ddot e+D_d\dot e+K_de=\tau_{\rm ext},\qquad e=q-q_d.$$
+$$
+M_d\ddot e+D_d\dot e+K_de=\tau_{\rm ext},\qquad e=q-q_d.
+$$
 
 理想完整阻抗控制律：
 
-$$\boxed{\tau=M(q)\left[\ddot q_d+M_d^{-1}(\tau_{\rm ext}-D_d\dot e-K_de)\right]+h(q,\dot q)-\tau_{\rm ext}}.$$
+$$
+\boxed{\tau=M(q)\left[\ddot q_d+M_d^{-1}(\tau_{\rm ext}-D_d\dot e-K_de)\right]+h(q,\dot q)-\tau_{\rm ext}}.
+$$
 
 该控制律在模型精确、外力已知、执行器可准确施加力矩等条件下实现指定的闭环惯量、阻尼与刚度。
 
@@ -77,11 +93,15 @@ $$\boxed{\tau=M(q)\left[\ddot q_d+M_d^{-1}(\tau_{\rm ext}-D_d\dot e-K_de)\right]
 
 固定目标下：
 
-$$\tau=g(q)-K_Pe-K_D\dot e.$$
+$$
+\tau=g(q)-K_Pe-K_D\dot e.
+$$
 
 代入动力学得到：
 
-$$M(q)\ddot e+[C(q,\dot q)+K_D]\dot e+K_Pe=\tau_{\rm ext}.$$
+$$
+M(q)\ddot e+[C(q,\dot q)+K_D]\dot e+K_Pe=\tau_{\rm ext}.
+$$
 
 这种控制已经具有弹簧—阻尼式柔顺行为，但**真实惯量 $M(q)$ 并未被整形成指定的 $M_d$**。完整阻抗控制与 PD 可能有相同的稳态位移，但瞬态不同。
 
@@ -91,15 +111,21 @@ $$M(q)\ddot e+[C(q,\dot q)+K_D]\dot e+K_Pe=\tau_{\rm ext}.$$
 
 一维阻抗系统：
 
-$$m\ddot e+d\dot e+ke=f_{\rm ext},\qquad m,d,k>0.$$
+$$
+m\ddot e+d\dot e+ke=f_{\rm ext},\qquad m,d,k>0.
+$$
 
 选择储能函数（动能与弹性势能）：
 
-$$V=\tfrac12m\dot e^2+\tfrac12ke^2.$$
+$$
+V=\tfrac12m\dot e^2+\tfrac12ke^2.
+$$
 
 则：
 
-$$\boxed{\dot V=f_{\rm ext}\dot e-d\dot e^2\leq f_{\rm ext}\dot e}.$$
+$$
+\boxed{\dot V=f_{\rm ext}\dot e-d\dot e^2\leq f_{\rm ext}\dot e}.
+$$
 
 将输入定义为 $u=f_{\rm ext}$、输出定义为 $y=\dot e$，则 $uy$ 是外界输入的瞬时功率。存在非负储能函数满足 $\dot V\leq u^Ty$，意味着系统不会在超过外界输入和初始储能的意义上凭空产生能量，这就是无源性的核心。
 
@@ -112,39 +138,59 @@ $$\boxed{\dot V=f_{\rm ext}\dot e-d\dot e^2\leq f_{\rm ext}\dot e}.$$
 
 末端位置运动学：
 
-$$x=f(q),\quad \dot x=J(q)\dot q,\quad \ddot x=J(q)\ddot q+\dot J(q,\dot q)\dot q.$$
+$$
+x=f(q),\quad \dot x=J(q)\dot q,\quad \ddot x=J(q)\ddot q+\dot J(q,\dot q)\dot q.
+$$
 
 对于非冗余、非奇异的机械臂，定义任务空间惯量：
 
-$$\boxed{\Lambda(q)=J^{-T}M(q)J^{-1}}.$$
+$$
+\boxed{\Lambda(q)=J^{-T}M(q)J^{-1}}.
+$$
 
 对于满行秩的任务 Jacobian，更一般地：
 
-$$\boxed{\Lambda(q)=(JM^{-1}J^T)^{-1}}.$$
+$$
+\boxed{\Lambda(q)=(JM^{-1}J^T)^{-1}}.
+$$
 
 非冗余情形下，任务空间动力学可写为：
 
-$$\Lambda\ddot x+\eta=F_{\rm cmd}+F_{\rm ext},$$
+$$
+\Lambda\ddot x+\eta=F_{\rm cmd}+F_{\rm ext},
+$$
 
 其中：
 
-$$\eta=J^{-T}\bigl(h-MJ^{-1}\dot J\dot q\bigr),\qquad \tau=J^TF_{\rm cmd}.$$
+$$
+\eta=J^{-T}\bigl(h-MJ^{-1}\dot J\dot q\bigr),\qquad \tau=J^TF_{\rm cmd}.
+$$
 
 期望阻抗：
 
-$$M_d\ddot e_x+D_d\dot e_x+K_de_x=F_{\rm ext},\qquad e_x=x-x_d.$$
+$$
+M_d\ddot e_x+D_d\dot e_x+K_de_x=F_{\rm ext},\qquad e_x=x-x_d.
+$$
 
 因此：
 
-$$\ddot x_{\rm cmd}=\ddot x_d+M_d^{-1}(F_{\rm ext}-D_d\dot e_x-K_de_x),$$
+$$
+\ddot x_{\rm cmd}=\ddot x_d+M_d^{-1}(F_{\rm ext}-D_d\dot e_x-K_de_x),
+$$
 
-$$\boxed{F_{\rm cmd}=\Lambda\ddot x_{\rm cmd}+\eta-F_{\rm ext},\qquad \tau=J^TF_{\rm cmd}}.$$
+$$
+\boxed{F_{\rm cmd}=\Lambda\ddot x_{\rm cmd}+\eta-F_{\rm ext},\qquad \tau=J^TF_{\rm cmd}}.
+$$
 
 对于本次 2R 平面机械臂，直接在关节加速度层实现等价的控制更方便：
 
-$$\ddot q_{\rm cmd}=J^{-1}(\ddot x_{\rm cmd}-\dot J\dot q),$$
+$$
+\ddot q_{\rm cmd}=J^{-1}(\ddot x_{\rm cmd}-\dot J\dot q),
+$$
 
-$$\tau=M\ddot q_{\rm cmd}+h-J^TF_{\rm ext}.$$
+$$
+\tau=M\ddot q_{\rm cmd}+h-J^TF_{\rm ext}.
+$$
 
 **重要限制**：需要避开 Jacobian 奇异构型；冗余机械臂还涉及零空间力矩设计；模型误差、力测量误差、时延、饱和和实际接触会影响理想阻抗的实现。
 
@@ -152,11 +198,15 @@ $$\tau=M\ddot q_{\rm cmd}+h-J^TF_{\rm ext}.$$
 
 课堂例子：
 
-$$M=\begin{bmatrix}2&0\\0&1\end{bmatrix},\qquad J=\begin{bmatrix}1&0\\0&2\end{bmatrix}.$$
+$$
+M=\begin{bmatrix}2&0\\0&1\end{bmatrix},\qquad J=\begin{bmatrix}1&0\\0&2\end{bmatrix}.
+$$
 
 于是：
 
-$$\Lambda=\begin{bmatrix}2&0\\0&1/4\end{bmatrix}.$$
+$$
+\Lambda=\begin{bmatrix}2&0\\0&1/4\end{bmatrix}.
+$$
 
 在忽略偏置和其他输入的条件下，沿 $x$ 方向施加 $1\,\mathrm N$ 产生 $0.5\,\mathrm{m/s^2}$ 的加速度，沿 $y$ 方向施加同样大小的力产生 $4\,\mathrm{m/s^2}$。**任务空间惯量越小，相同方向外力引起的加速度越大**。它综合体现了质量分布与构型，不等同于速度可操作度。
 
@@ -164,19 +214,25 @@ $$\Lambda=\begin{bmatrix}2&0\\0&1/4\end{bmatrix}.$$
 
 本日已完成三个脚本，并已在本地修改参数、观察并验证结果：
 
-| 文件 | 实验内容 | 主要结论 |
-|---|---|---|
-| `day26_joint_impedance.py` | 重力补偿 PD + 外部关节力矩 | 稳态偏移随刚度倒数变化；阻尼主要影响瞬态 |
-| `day26_full_impedance.py` | 完整关节阻抗与 PD 对照 | 期望惯量 $M_d$ 可以独立设计；相同静态刚度不意味着相同动态响应 |
-| `day26_task_space_impedance.py` | 2R 末端任务空间阻抗与 PD 对照 | 在笛卡尔方向直接指定刚度、阻尼与期望惯量 |
+| 文件                              | 实验内容               | 主要结论                               |
+| ------------------------------- | ------------------ | ---------------------------------- |
+| `day26_joint_impedance.py`      | 重力补偿 PD + 外部关节力矩   | 稳态偏移随刚度倒数变化；阻尼主要影响瞬态               |
+| `day26_full_impedance.py`       | 完整关节阻抗与 PD 对照      | 期望惯量 $M_d$ 可以独立设计；相同静态刚度不意味着相同动态响应 |
+| `day26_task_space_impedance.py` | 2R 末端任务空间阻抗与 PD 对照 | 在笛卡尔方向直接指定刚度、阻尼与期望惯量               |
 
 第三个脚本中，机械臂运动平面是世界坐标的 **$x$–$z$ 平面**，而非 $x$–$y$ 平面。默认设置：
 
-$$K=\operatorname{diag}(200,50)\ \mathrm{N/m},$$
+$$
+K=\operatorname{diag}(200,50)\ \mathrm{N/m},
+$$
 
-$$D=\operatorname{diag}(30,14)\ \mathrm{N\,s/m},\quad M_d=\operatorname{diag}(1.5,0.8)\ \mathrm{kg},$$
+$$
+D=\operatorname{diag}(30,14)\ \mathrm{N\,s/m},\quad M_d=\operatorname{diag}(1.5,0.8)\ \mathrm{kg},
+$$
 
-$$F_{\rm ext}=[0,5]^T\ \mathrm N.$$
+$$
+F_{\rm ext}=[0,5]^T\ \mathrm N.
+$$
 
 理论上，$z$ 方向静态偏移为 $5/50=0.1\,\mathrm m$（在目标位置及可达工作空间等条件允许的情况下）。
 
@@ -224,7 +280,9 @@ data.qfrc_applied[:] = J.T @ F_ext
 
 从固定基座机械臂转向腿足/人形机器人：
 
-$$M(q)\ddot q+h(q,\dot q)=S^T\tau+J_c(q)^T\lambda.$$
+$$
+M(q)\ddot q+h(q,\dot q)=S^T\tau+J_c(q)^T\lambda.
+$$
 
 重点理解：自由基座的 6 个非驱动自由度、驱动选择矩阵 $S$、接触 Jacobian $J_c$、接触力 $\lambda$，以及为何足端接触能改变机器人可实现的运动。之后再进入实际接触与约束动力学实验。
 

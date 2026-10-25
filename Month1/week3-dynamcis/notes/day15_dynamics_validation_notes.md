@@ -12,22 +12,22 @@
 
 对无摩擦、无其他外部 Wrench 的串联机械臂，关节空间动力学为
 
-\[
+$$
 \boxed{M(q)\ddot q+C(q,\dot q)\dot q+g(q)=\tau.}
-\]
+$$
 
 - **Newton–Euler / RNEA**：从每个刚体的空间速度、加速度和 Wrench 出发，前向递推运动学，反向递推关节力矩。
 - **Euler–Lagrange**：从动能 \(K\)、势能 \(U\) 和 \(\mathcal L=K-U\) 出发，推导同一个关节空间动力学方程。
 
 Day 14 已通过随机测试验证二者一致。若 RNEA **包含重力**，可从逆动力学中分别提取各项：
 
-\[
+$$
 \begin{aligned}
 g(q)&=\operatorname{RNEA}(q,0,0),\\
 M(q)e_i&=\operatorname{RNEA}(q,0,e_i)-g(q),\\
 c(q,\dot q)&=\operatorname{RNEA}(q,\dot q,0)-g(q).
 \end{aligned}
-\]
+$$
 
 其中 \(c(q,\dot q)=C(q,\dot q)\dot q\)。**注意**：有重力时不能直接把 \(\operatorname{RNEA}(q,0,e_i)\) 当作 \(M\) 的第 \(i\) 列，必须扣除重力项。
 
@@ -35,36 +35,36 @@ c(q,\dot q)&=\operatorname{RNEA}(q,\dot q,0)-g(q).
 
 使用之前的竖直平面二连杆：\(L_1=2,L_2=1\)，\(m_1=2,m_2=1\)，\(r_1=1,r_2=0.5\)，\(I_1=0.25,I_2=0.10\)，重力加速度大小 \(g_0=9.81\)。关节角从水平正方向测量，\(q_2\) 是相对角。
 
-\[
+$$
 M(q)=\begin{bmatrix}
 6.60+2\cos q_2&0.35+\cos q_2\\
 0.35+\cos q_2&0.35
 \end{bmatrix},
-\]
+$$
 
-\[
+$$
 C(q,\dot q)=\sin q_2\begin{bmatrix}
 -\dot q_2&-(\dot q_1+\dot q_2)\\
 \dot q_1&0
 \end{bmatrix},
-\]
+$$
 
-\[
+$$
 U(q)=g_0\big[4\sin q_1+0.5\sin(q_1+q_2)\big],
-\]
+$$
 
-\[
+$$
 g(q)=g_0\begin{bmatrix}
 4\cos q_1+0.5\cos(q_1+q_2)\\
 0.5\cos(q_1+q_2)
 \end{bmatrix}.
-\]
+$$
 
 正动力学计算为
 
-\[
+$$
 \boxed{\ddot q=\operatorname{solve}\big(M(q),\tau-C(q,\dot q)\dot q-g(q)\big).}
-\]
+$$
 
 NumPy 中用 `np.linalg.solve(M, rhs)`，避免显式求逆。
 
@@ -72,29 +72,29 @@ NumPy 中用 `np.linalg.solve(M, rhs)`，避免显式求逆。
 
 静止平衡要求 \(\dot q=\ddot q=0\)，因此
 
-\[
+$$
 \boxed{\tau=g(q^*).}
-\]
+$$
 
 在水平伸直姿态 \(q^*=(0,0)^T\)：
 
-\[
+$$
 g(q^*)=\begin{bmatrix}44.145\\4.905\end{bmatrix}\ \mathrm{N\cdot m}.
-\]
+$$
 
 施加这一恒定力矩且初始状态恰好为 \((q^*,0)\) 时，理想模型保持静止。
 
 若位置扰动为 \(q=(0.1,0)^T\)，而 \(\tau=g(q^*)\) 不变，则
 
-\[
+$$
 \tau-g(q)=[1-\cos(0.1)]g(q^*)\ne0.
-\]
+$$
 
 **重要细节**：净关节力矩的两个分量均为正，**不代表**两个关节的角加速度都为正，因为
 
-\[
+$$
 \ddot q=M(q)^{-1}[\tau-g(q)].
-\]
+$$
 
 惯性耦合会影响各关节的实际加速度方向。
 
@@ -110,21 +110,21 @@ g(q^*)=\begin{bmatrix}44.145\\4.905\end{bmatrix}\ \mathrm{N\cdot m}.
 
 总机械能：
 
-\[
+$$
 \boxed{E(q,\dot q)=K+U=\tfrac12\dot q^TM(q)\dot q+U(q).}
-\]
+$$
 
 由 Day 14 的 \(\dot M-2C\) 斜对称性，可得
 
-\[
+$$
 \boxed{\dot E=\tau^T\dot q.}
-\]
+$$
 
 积分后：
 
-\[
+$$
 \boxed{E(T)-E(0)=\int_0^T\tau(t)^T\dot q(t)\,dt.}
-\]
+$$
 
 - **零输入 \(\tau=0\)**：连续时间系统总机械能守恒。
 - **非零输入**：机械能的变化等于关节驱动力矩所做的功。
@@ -136,13 +136,13 @@ g(q^*)=\begin{bmatrix}44.145\\4.905\end{bmatrix}\ \mathrm{N\cdot m}.
 
 已实现的离散更新：
 
-\[
+$$
 \begin{aligned}
 \ddot q_k&=f(q_k,\dot q_k,\tau_k),\\
 \dot q_{k+1}&=\dot q_k+\Delta t\,\ddot q_k,\\
 q_{k+1}&=q_k+\Delta t\,\dot q_{k+1}.
 \end{aligned}
-\]
+$$
 
 与显式 Euler 不同，位置更新使用的是**新速度** \(\dot q_{k+1}\)。这种方法是一阶数值方法；在当前非线性机器人模型中，不保证逐步严格守恒能量。
 
@@ -180,16 +180,16 @@ t = np.arange(n_steps + 1) * dt
 
 当步长减半时，最大能量漂移也近似减半：
 
-\[
+$$
 \frac{0.2198}{0.1100}\approx2.00,\qquad
 \frac{0.1100}{0.05506}\approx2.00.
-\]
+$$
 
 因此，在**本次仿真时长和步长范围内**，观察到近似一阶收敛：
 
-\[
+$$
 \max_k|E_k-E_0|\approx O(\Delta t).
-\]
+$$
 
 这与半隐式 Euler 的一阶精度相符；不能据此推断任意长时间仿真中的能量误差都会保持有界。
 
@@ -197,21 +197,21 @@ t = np.arange(n_steps + 1) * dt
 
 程序采用左端点功率积分：
 
-\[
+$$
 W_{k+1}=W_k+\Delta t\,\tau_k^T\dot q_k,
-\]
+$$
 
 并定义残差
 
-\[
+$$
 \boxed{R_k=E_k-E_0-W_k.}
-\]
+$$
 
 本次终端残差为：
 
-\[
+$$
 \boxed{R(T)=-5.5456\times10^{-2}\ \mathrm J.}
-\]
+$$
 
 该残差同时包含**状态积分误差**与**输入功数值求积误差**。有限步长下 \(R(T)\ne0\) 不等于物理模型违反能量平衡。进一步可通过减小 \(\Delta t\) 检查残差是否趋于零。
 

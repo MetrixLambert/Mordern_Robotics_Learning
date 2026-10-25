@@ -22,21 +22,21 @@
 
 设 `R_ab` 表示坐标系 `{b}` 相对于 `{a}` 的姿态，则
 
-\[
+$$
 \boxed{v_a=R_{ab}v_b},\qquad \boxed{v_b=R_{ab}^{T}v_a}.
-\]
+$$
 
 `R_ab` 的三列分别是 **b 系 x、y、z 单位轴在 a 系中的坐标**：
 
-\[
+$$
 R_{ab}=\begin{bmatrix}\hat x_b^a&\hat y_b^a&\hat z_b^a\end{bmatrix}.
-\]
+$$
 
 **旋转矩阵的性质**：
 
-\[
+$$
 \boxed{R^TR=RR^T=I},\qquad \boxed{\det R=+1},\qquad R^{-1}=R^T.
-\]
+$$
 
 `det = +1` 表示保持右手系；`det = -1` 的正交矩阵还包含反射，不属于 `SO(3)`。
 
@@ -48,13 +48,13 @@ R_{ab}=\begin{bmatrix}\hat x_b^a&\hat y_b^a&\hat z_b^a\end{bmatrix}.
 
 绕固定 z 轴的正向旋转矩阵：
 
-\[
+$$
 \boxed{R_z(\theta)=\begin{bmatrix}
 \cos\theta&-\sin\theta&0\\
 \sin\theta&\cos\theta&0\\
 0&0&1
 \end{bmatrix}}.
-\]
+$$
 
 右手定则：绕 +z 旋转 +90°，+x 方向转向 +y。
 
@@ -70,9 +70,9 @@ R_{ab}=\begin{bmatrix}\hat x_b^a&\hat y_b^a&\hat z_b^a\end{bmatrix}.
 
 ### 1. 连续坐标变换
 
-\[
+$$
 \boxed{R_{ac}=R_{ab}R_{bc}}
-\]
+$$
 
 因为 `v_a = R_ab v_b = R_ab R_bc v_c`。矩阵乘法从**右向左**作用，顺序不能随意交换。
 
@@ -87,32 +87,32 @@ R_{ab}=\begin{bmatrix}\hat x_b^a&\hat y_b^a&\hat z_b^a\end{bmatrix}.
 
 同一次物理旋转在两坐标系下的算子满足：
 
-\[
+$$
 \boxed{Q_s=RQ_bR^T},\qquad \boxed{Q_sR=RQ_b}.
-\]
+$$
 
 **推导思路**：对于任意向量 `v_s`，先变换到 b 系 (`R^T v_s`)，在 b 系执行旋转 (`Q_b R^T v_s`)，再变回 s 系 (`R Q_b R^T v_s`)；与直接在 s 系旋转 (`Q_s v_s`) 相同。
 
 **具体例子**：当 `R = R_z(90°)` 时，刚体 +y 轴对应世界 −x 轴，因此
 
-\[
+$$
 R_x(-30^\circ)R_z(90^\circ)=R_z(90^\circ)R_y(30^\circ).
-\]
+$$
 
 注意：`Q_s` 与 `Q_b` 是**同一物理旋转增量的不同坐标表达**，不能在不改变旋转轴定义的情况下直接互换。
 
 ### 3. 三维角速度的物理意义
 
-\[
+$$
 \boxed{\omega=\dot\theta\,\hat\omega}
-\]
+$$
 
 - `\hat ω`：瞬时旋转轴方向（右手定则）；`\dot θ`：有符号旋转速率（rad/s）。
 - 对绕固定点 `O` 纯旋转的刚体，点 `P` 相对 `O` 的位置向量为 `r_OP`，则其速度为
 
-\[
+$$
 \boxed{v_P=\omega\times r_{OP}}.
-\]
+$$
 
 - 若参考点 `O` 同时平移，则应写为 `v_P=v_O+ω×r_OP`。
 - 角速度是**几何向量**，一般**不等于三个欧拉角导数直接组成的向量**。
@@ -121,20 +121,20 @@ R_x(-30^\circ)R_z(90^\circ)=R_z(90^\circ)R_y(30^\circ).
 
 定义叉乘矩阵（hat/skew 算子）：
 
-\[
+$$
 \boxed{[\omega]_\times=\begin{bmatrix}
 0&-\omega_z&\omega_y\\
 \omega_z&0&-\omega_x\\
 -\omega_y&\omega_x&0
 \end{bmatrix}},\qquad
 \boxed{[\omega]_\times v=\omega\times v}.
-\]
+$$
 
 反向映射 `vee`：若 `W=[ω]_×`，则
 
-\[
+$$
 \boxed{\operatorname{vee}(W)=\begin{bmatrix}W_{32}&W_{13}&W_{21}\end{bmatrix}^T}.
-\]
+$$
 
 其中 `W_ij` 用数学上的 **1-based** 下标；NumPy 中对应 `W[2,1]`、`W[0,2]`、`W[1,0]`。
 
@@ -142,17 +142,17 @@ R_x(-30^\circ)R_z(90^\circ)=R_z(90^\circ)R_y(30^\circ).
 
 世界系角速度（spatial）与刚体系角速度（body）分别满足：
 
-\[
+$$
 \boxed{\dot R=[\omega_s]_\times R},\qquad
 \boxed{\dot R=R[\omega_b]_\times}.
-\]
+$$
 
 反向提取：
 
-\[
+$$
 \boxed{[\omega_s]_\times=\dot R R^T},\qquad
 \boxed{[\omega_b]_\times=R^T\dot R}.
-\]
+$$
 
 **推导主线**：
 
@@ -163,34 +163,34 @@ R_x(-30^\circ)R_z(90^\circ)=R_z(90^\circ)R_y(30^\circ).
 
 **正交性带来的结构**：对 `R^TR=I` 求导，
 
-\[
+$$
 \dot R^TR+R^T\dot R=0
 \quad\Rightarrow\quad
 (R^T\dot R)^T=-R^T\dot R.
-\]
+$$
 
 因此 `R^T\dot R` 是反对称矩阵，恰好可以用一个三维角速度向量表示。
 
 ### 6. 同一个角速度在两个坐标系下的表示
 
-\[
+$$
 \boxed{\omega_s=R\omega_b},\qquad
 \boxed{\omega_b=R^T\omega_s}.
-\]
+$$
 
 角速度的模长不变：`||ω_s|| = ||ω_b||`。叉乘矩阵对应地满足：
 
-\[
+$$
 \boxed{[\omega_s]_\times=R[\omega_b]_\times R^T}.
-\]
+$$
 
 这是旋转保持叉乘的结果：`R(a×b)=(Ra)×(Rb)`，其中 `R∈SO(3)`。
 
 **何时 `ω_s = ω_b`？**
 
-\[
+$$
 (R-I)\omega_b=0.
-\]
+$$
 
 - `ω_b=0` 时总成立。
 - `R=I` 时对所有角速度都成立。
@@ -201,9 +201,9 @@ R_x(-30^\circ)R_z(90^\circ)=R_z(90^\circ)R_y(30^\circ).
 
 实现了 `rot_z(theta)`、`skew(w)`、`vee(W)`；用中心差分近似姿态导数：
 
-\[
+$$
 \dot R(t)\approx\frac{R(t+h)-R(t-h)}{2h},\qquad h=10^{-5}.
-\]
+$$
 
 对 `R(t)=R_z(2t)`、`t=0.5 s`，分别计算
 

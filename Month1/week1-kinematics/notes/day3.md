@@ -136,7 +136,8 @@ $$
 
 $$
 \boxed{\hat\omega=\operatorname{vee}\left(\frac{R-R^T}{2\sin\theta}\right)},
-$$$$
+$$
+$$
 \boxed{\phi=\frac{\theta}{2\sin\theta}\operatorname{vee}(R-R^T).}
 $$
 

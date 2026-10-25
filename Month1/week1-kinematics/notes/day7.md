@@ -7,21 +7,15 @@
 
 正运动学：给定关节变量 \(q\)，计算末端位姿
 
-
-
-
 $$
-
-$$
-
 T(q)\in SE(3).
-\]
+$$
 
 逆运动学：给定目标位姿 \(T_d\)，寻找满足
 
-\[
+$$
 T(q)=T_d
-\]
+$$
 
 的关节变量 \(q\)。逆运动学可能存在多个解、无解或奇异构型附近的数值困难。
 
@@ -29,41 +23,41 @@ T(q)=T_d
 
 连杆长度 \(L_1,L_2\)，末端位置为
 
-\[
+$$
 \begin{aligned}
 x&=L_1\cos q_1+L_2\cos(q_1+q_2),\\
 y&=L_1\sin q_1+L_2\sin(q_1+q_2).
 \end{aligned}
-\]
+$$
 
 目标位置 \((x_d,y_d)\) 满足可达条件
 
-\[
+$$
 |L_1-L_2|\leq \sqrt{x_d^2+y_d^2}\leq L_1+L_2.
-\]
+$$
 
 由余弦定理：
 
-\[
+$$
 \cos q_2=\frac{x_d^2+y_d^2-L_1^2-L_2^2}{2L_1L_2},
-\]
+$$
 
-\[
+$$
 q_2=\pm\arccos\left(\frac{x_d^2+y_d^2-L_1^2-L_2^2}{2L_1L_2}\right),
-\]
+$$
 
-\[
+$$
 q_1=\operatorname{atan2}(y_d,x_d)-\operatorname{atan2}(L_2\sin q_2,L_1+L_2\cos q_2).
-\]
+$$
 
 正负分支通常对应肘上、肘下两个位置解。**位置可达不代表任意指定的完整末端位姿可达**：2R 机械臂只有两个自由度。
 
 **课堂例子**：\(L_1=2,L_2=1\)，\((x_d,y_d)=(2,1)\)，有 \(\cos q_2=0\)。两组解为
 
-\[
+$$
 (q_1,q_2)=(0,\pi/2),\qquad
 (q_1,q_2)=(2\arctan(1/2),-\pi/2).
-\]
+$$
 
 ## 3. 位置逆运动学：Newton–Raphson
 
@@ -75,18 +69,18 @@ $$
 
 求解 \(J_p\Delta q\approx e_p\)，得到
 
-\[
+$$
 $\boxed{q^{(k+1)}=q^{(k)}+J_p(q^{(k)})^\dagger[p_d-p(q^{(k)})].}$
-\]
+$$
 
 \(J_p^\dagger\) 为 Moore–Penrose 伪逆，最小化线性化残差；在残差最小的解中选取最小范数的关节增量。
 
 **2R 例子**：\(L_1=2,L_2=1\)，\(q=(0,0)\)，有
 
-\[
+$$
 J_p=\begin{bmatrix}0&0\\3&1\end{bmatrix},\qquad
 J_p^\dagger=\begin{bmatrix}0&0.3\\0&0.1\end{bmatrix}.
-\]
+$$
 
 对目标 \((2,1)\)，当前位置为 \((3,0)\)，误差 \((-1,1)\)，因此首步 \(\Delta q=(0.3,0.1)\)。该构型的 \(J_p\) 秩亏，无法在一阶近似下产生 x 方向位移。
 
@@ -96,15 +90,15 @@ J_p^\dagger=\begin{bmatrix}0&0.3\\0&0.1\end{bmatrix}.
 
 定义 Body Frame 中的相对位姿
 
-\[
+$$
 $\boxed{T_{\mathrm{err}}=T(q)^{-1}T_d.}$
-\]
+$$
 
 目标达到时 \(T_{\mathrm{err}}=I_4\)。通过矩阵对数转换成六维误差坐标：
 
-\[
+$$
 $\boxed{V_b^{\mathrm{err}}=\operatorname{Log}_6(T(q)^{-1}T_d).}$
-\]
+$$
 
 这里的 \(V_b^{\mathrm{err}}\) 是**有限位姿差的对数坐标**，不是机器人当前的真实瞬时速度。
 
@@ -114,42 +108,45 @@ $\boxed{V_b^{\mathrm{err}}=\operatorname{Log}_6(T(q)^{-1}T_d).}$
 
 
 
-$$T=\begin{bmatrix}R&p\\0&1\end{bmatrix},\qquad
-\log T=\begin{bmatrix}[\phi]_\times&\rho\\0&0\end{bmatrix}.$
+$$
+T=\begin{bmatrix}R&p\\0&1\end{bmatrix},\qquad
+\log T=\begin{bmatrix}[\phi]_\times&\rho\\0&0\end{bmatrix}.
 
 $$
 
 对一般旋转角 \(0<\theta<\pi\)，
 
 
-$$\theta=\arccos\left(\frac{\operatorname{tr}R-1}{2}\right),\qquad
-[\phi]_\times=\frac{\theta}{2\sin\theta}(R-R^T).$
+$$
+\theta=\arccos\left(\frac{\operatorname{tr}R-1}{2}\right),\qquad
+\[\phi]_\times=\frac{\theta}{2\sin\theta}(R-R^T).
+$$
 
 旋转和平移通过 \(SO(3)\) 左 Jacobian 耦合：
 
-\[
+$$
 p=J_l(\phi)\rho,\qquad \rho=J_l(\phi)^{-1}p,
-\]
+$$
 
-\[
+$$
 J_l(\phi)^{-1}=I-\frac12[\phi]_\times+
 \left(\frac1{\theta^2}-\frac{1}{2\theta\tan(\theta/2)}\right)[\phi]_\times^2.
-\]
+$$
 
 所以
 
-\[
+$$
 \operatorname{Log}_6(T)=\begin{bmatrix}\phi\\\rho\end{bmatrix}.
-\]
+$$
 
 当 \(R=I\)（纯平移）时，\(\phi=0,\rho=p\)。对于非零旋转，一般 \(\rho\neq p\)。
 
 **练习例子**：绕 z 轴旋转 \(\pi/2\) 且 \(p=(1,0,0)^T\)，有
 
-\[
+$$
 \operatorname{Log}_6(T)=
 \begin{bmatrix}0&0&\pi/2&\pi/4&-\pi/4&0\end{bmatrix}^T.
-\]
+$$
 
 原因是刚体旋转与平移相互耦合；这也与瞬时关系 \(\dot p=\omega_s\times p+v_s\) 相呼应，但要区分有限变换的对数坐标与瞬时 Twist。
 
@@ -159,37 +156,37 @@ J_l(\phi)^{-1}=I-\frac12[\phi]_\times+
 
 Body Jacobian 满足
 
-\[
+$$
 V_b=J_b(q)\dot q.
-\]
+$$
 
 对小的关节变化，一阶近似为
 
-\[
+$$
 $T(q+\Delta q)\approx T(q)\exp([J_b(q)\Delta q]).$
-\]
+$$
 
 与目标表达式 \(T_d=T(q)\exp([V_b^{\mathrm{err}}])\) 对比，得到局部近似
 
-\[
+$$
 $J_b(q)\Delta q\approx V_b^{\mathrm{err}}.$
-\]
+$$
 
 因此基本迭代为
 
-\[
+$$
 $\boxed{q^{(k+1)}=q^{(k)}+J_b(q^{(k)})^\dagger
 \operatorname{Log}_6(T(q^{(k)})^{-1}T_d).}$
-\]
+$$
 
 这属于**局部线性化**，并不保证从任意初始值全局收敛。
 
 停止条件可分别检查
 
-\[
+$$
 \|\phi_{\mathrm{err}}\|<\varepsilon_\omega,\qquad
 \|\rho_{\mathrm{err}}\|<\varepsilon_v.
-\]
+$$
 
 旋转与平移的物理单位不同，分别设置阈值更合适。
 
@@ -202,10 +199,10 @@ $\boxed{q^{(k+1)}=q^{(k)}+J_b(q^{(k)})^\dagger
 
 ### 5.2 Space 与 Body 的区别
 
-\[
+$$
 V_s^{\mathrm{err}}=\operatorname{Ad}_{T(q)}V_b^{\mathrm{err}},\qquad
 J_s=\operatorname{Ad}_{T(q)}J_b.
-\]
+$$
 
 若用欧氏最小二乘伪逆，在非方阵或欠驱动情况下，Body 与 Space 形式的数值关节增量**不必相同**，因为 Adjoint 通常不是正交变换。
 
@@ -215,21 +212,21 @@ J_s=\operatorname{Ad}_{T(q)}J_b.
 
 DLS 将关节增量的范数作为正则化惩罚：
 
-\[
+$$
 \boxed{\min_{\Delta q}\ \|J\Delta q-e\|^2+\lambda^2\|\Delta q\|^2,\qquad \lambda>0.}
-\]
+$$
 
 对 \(\Delta q\) 求导并令梯度为零：
 
-\[
+$$
 (J^TJ+\lambda^2I)\Delta q=J^Te.
-\]
+$$
 
 故
 
-\[
+$$
 \boxed{\Delta q=(J^TJ+\lambda^2I)^{-1}J^Te.}
-\]
+$$
 
 实现时优先使用
 
@@ -245,31 +242,31 @@ dq = np.linalg.solve(A, b)
 
 对于 \(J=U\Sigma V^T\)，DLS 在第 i 个奇异方向的增益为
 
-\[
+$$
 \boxed{g_i(\lambda)=\frac{\sigma_i}{\sigma_i^2+\lambda^2}.}
-\]
+$$
 
 相比伪逆的 \(1/\sigma_i\)，DLS 对小奇异值方向进行抑制；\(\lambda\) 越大，通常关节增量越小，但线性化任务误差可能更大。
 
 **课堂数值例子**：
 
-\[
+$$
 J=\operatorname{diag}(1,0.001),\quad e=(0,1)^T.
-\]
+$$
 
 普通伪逆给出 \(\Delta q=(0,1000)^T\)；取 \(\lambda=0.1\)，DLS 给出
 
-\[
+$$
 \Delta q=\left(0,\frac{0.001}{0.001^2+0.1^2}\right)^T\approx(0,0.09999)^T.
-\]
+$$
 
 ### 6.2 与 Body IK 结合
 
 将原先的伪逆步长替换为
 
-\[
+$$
 \boxed{\Delta q_k=(J_b(q_k)^TJ_b(q_k)+\lambda^2I)^{-1}J_b(q_k)^TV_b^{\mathrm{err}}.}
-\]
+$$
 
 固定阻尼实现简洁，但未处理关节限位、步长约束和全局收敛性。后续可研究自适应阻尼、线搜索或信赖域方法。
 
@@ -282,23 +279,23 @@ J=\operatorname{diag}(1,0.001),\quad e=(0,1)^T.
 
 **普通 Body IK**（目标 \(q=(0.5,0.7)\)）：约 3 次迭代后得到
 
-\[
+$$
 q\approx(0.49999814,\ 0.70000672).
-\]
+$$
 
 **DLS Body IK**（相同目标）：约 3 次迭代后得到
 
-\[
+$$
 q\approx(0.50004774,\ 0.69988569),
-\]
+$$
 
 角度误差范数约 \(6.66\times10^{-5}\)，平移对数误差范数约 \(6.18\times10^{-5}\)。
 
 **近奇异平面 2R 位置 Jacobian**：奇异值约为
 
-\[
+$$
 \sigma=(3.16227728,\ 0.0006324555).
-\]
+$$
 
 | 方法                   | \(\Delta q_1\) | \(\Delta q_2\) |
 | -------------------- | --------------:| --------------:|

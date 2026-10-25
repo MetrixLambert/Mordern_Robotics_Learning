@@ -11,23 +11,23 @@
 
 真实模型与控制器为
 
-\[
+$$
  m\ddot q=\tau,\qquad
  \tau=\hat m\left(\ddot q_d-k_d\dot e-k_pe\right),
  \qquad e=q-q_d.
-\]
+$$
 
 令 \(\tilde m=\hat m-m\)、\(\alpha=\hat m/m>0\)，则
 
-\[
+$$
 \boxed{m\ddot e+\hat m k_d\dot e+\hat m k_pe=\tilde m\ddot q_d}
-\]
+$$
 
 或
 
-\[
+$$
 \boxed{\ddot e+\alpha k_d\dot e+\alpha k_pe=(\alpha-1)\ddot q_d.}
-\]
+$$
 
 注意：惯量失配不仅改变闭环极点，也会在**加速运动的参考轨迹**下引入持续强迫项。
 
@@ -35,19 +35,19 @@
 
 若 \(q_d=q^*\)，则 \(\ddot q_d=0\)，误差满足
 
-\[
+$$
 \ddot e+\alpha k_d\dot e+\alpha k_pe=0.
-\]
+$$
 
 对于 \(k_p,k_d,\alpha>0\)，特征多项式 \(s^2+\alpha k_ds+\alpha k_p\) 为 Hurwitz，故零平衡点全局指数稳定（在该理想一自由度模型中）。
 
 标准二阶系统参数为
 
-\[
+$$
 \boxed{\omega_{\mathrm{eff}}=\sqrt{\alpha k_p},\qquad
 \zeta_{\mathrm{eff}}=\frac{\alpha k_d}{2\sqrt{\alpha k_p}}
 =\frac{\sqrt\alpha\,k_d}{2\sqrt{k_p}}.}
-\]
+$$
 
 本次取 \(k_p=25\)、\(k_d=10\)，名义设计为临界阻尼。不同惯量估计对应：
 
@@ -63,25 +63,25 @@
 
 设
 
-\[
+$$
 q_d(t)=A\sin(\omega t),\qquad \ddot q_d(t)=-A\omega^2\sin(\omega t).
-\]
+$$
 
 误差系统为稳定线性系统受到持续正弦激励。其零输入响应衰减，而零状态响应趋于周期稳态，因此当 \(\alpha\ne1\) 时，误差通常**不收敛到零**。
 
 从 \(\ddot q_d\) 到 \(e\) 的传递函数为
 
-\[
+$$
 G(s)=\frac{\alpha-1}{s^2+\alpha k_ds+\alpha k_p}.
-\]
+$$
 
 稳态误差幅值：
 
-\[
+$$
 \boxed{E_{\mathrm{amp}}=
 \frac{|\alpha-1|A\omega^2}
 {\sqrt{(\alpha k_p-\omega^2)^2+(\alpha k_d\omega)^2}}.}
-\]
+$$
 
 可见，跟踪误差不仅依赖模型失配幅度，还依赖参考轨迹的频率。模型准确 \(\alpha=1\) 时，连续时间理想系统的稳态误差为零。
 
@@ -125,23 +125,23 @@ G(s)=\frac{\alpha-1}{s^2+\alpha k_ds+\alpha k_p}.
 
 真实机器人动力学：
 
-\[
+$$
 M(q)\ddot q+c(q,\dot q)+g(q)=\tau+d_{\mathrm{ext}}.
-\]
+$$
 
 用估计模型实施 CTC：
 
-\[
+$$
 \tau=\hat M(q)v+\hat c(q,\dot q)+\hat g(q),\qquad
 v=\ddot q_d-K_d\dot e-K_pe.
-\]
+$$
 
 定义 \(\Delta M=\hat M-M\)、\(\Delta c=\hat c-c\)、\(\Delta g=\hat g-g\)，则
 
-\[
+$$
 \boxed{\ddot e+K_d\dot e+K_pe=
 M(q)^{-1}\left[\Delta M\,v+\Delta c+\Delta g+d_{\mathrm{ext}}\right].}
-\]
+$$
 
 右侧不仅可能依赖时间，还可能通过 \(q,\dot q,v\) 依赖误差状态，**不能不加条件地将其视为独立外部输入**。一般多自由度系统的稳定性不能仅由一自由度正惯量失配的结论直接推广。
 
@@ -156,10 +156,10 @@ M(q)^{-1}\left[\Delta M\,v+\Delta c+\Delta g+d_{\mathrm{ext}}\right].}
 
 若引入补偿力矩 \(\tau_{\mathrm{NN}}\)，误差方程变为
 
-\[
+$$
 \ddot e+K_d\dot e+K_pe=
 M(q)^{-1}\left[\Delta Mv+\Delta c+\Delta g+d_{\mathrm{ext}}+\tau_{\mathrm{NN}}\right].
-\]
+$$
 
 后续研究的关键问题是：如何约束或估计**剩余补偿误差**，并据此给出跟踪误差有界性或稳定性保证。
 
